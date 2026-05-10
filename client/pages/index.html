@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eco-Tracker 2030 — Qualità dell'aria in tempo reale</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles/style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════
+       HEADER
+  ═══════════════════════════════════════════ -->
+  <header class="eco-header">
+    <div class="container">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-8">
+          <div class="d-flex align-items-center gap-3 mb-2">
+            <div class="eco-logo-badge">
+              <i class="bi bi-leaf-fill"></i>
+            </div>
+            <h1 class="eco-title mb-0">Eco-Tracker <span class="eco-year">2030</span></h1>
+          </div>
+          <p class="eco-payoff mb-0">
+            Conosci l'aria che respiri. Agisci per il tuo futuro.
+            Dati in tempo reale collegati agli obiettivi dell'<strong>Agenda 2030</strong>.
+          </p>
+        </div>
+        <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+          <span class="eco-badge-live">
+            <span class="eco-pulse"></span>
+            DATI IN TEMPO REALE
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="eco-header-line"></div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════
+       SEARCH SECTION
+  ═══════════════════════════════════════════ -->
+  <section class="eco-search-section py-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-7">
+          <p class="text-center eco-search-label mb-3">
+            <i class="bi bi-geo-alt me-1"></i>Inserisci una città italiana o mondiale
+          </p>
+          <div class="eco-search-box">
+            <input
+              type="text"
+              id="cityInput"
+              class="eco-input"
+              placeholder="es. Roma, Milano, Napoli, Parigi..."
+              autocomplete="off"
+              maxlength="80"
+            />
+            <button id="searchBtn" class="eco-search-btn" aria-label="Cerca">
+              <i class="bi bi-search me-2"></i>Analizza
+            </button>
+          </div>
+          <div id="searchError" class="eco-search-error mt-2 d-none"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       MAIN CONTENT (dinamico via JS)
+  ═══════════════════════════════════════════ -->
+  <main class="container pb-5" id="mainContent">
+
+    <!-- Stato iniziale -->
+    <div id="stateEmpty" class="eco-state-empty text-center py-5">
+      <div class="eco-earth-icon">🌍</div>
+      <h2 class="mt-4 mb-3">Inizia la tua analisi</h2>
+      <p class="eco-muted">Cerca una città per scoprire la qualità dell'aria<br>e il suo impatto sugli obiettivi dell'Agenda 2030.</p>
+      <div class="eco-goals-preview mt-5">
+        <div class="row g-3 justify-content-center">
+          <div class="col-md-4"><div class="eco-goal-chip goal-3">Goal 3 — Salute e Benessere</div></div>
+          <div class="col-md-4"><div class="eco-goal-chip goal-11">Goal 11 — Città Sostenibili</div></div>
+          <div class="col-md-4"><div class="eco-goal-chip goal-13">Goal 13 — Clima</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading state -->
+    <div id="stateLoading" class="eco-state-loading text-center py-5 d-none">
+      <div class="eco-spinner"></div>
+      <p class="mt-4 eco-muted">Interrogando i sensori ambientali...</p>
+    </div>
+
+    <!-- Results -->
+    <div id="stateResults" class="d-none">
+
+      <!-- AQI Dashboard Card -->
+      <div class="row justify-content-center mb-4">
+        <div class="col-lg-10">
+          <div id="aqiCard" class="eco-aqi-card">
+            <div class="row align-items-center">
+              <div class="col-md-3 text-center mb-3 mb-md-0">
+                <div id="aqiEmoji" class="eco-aqi-emoji"></div>
+                <div id="aqiIndex" class="eco-aqi-index"></div>
+              </div>
+              <div class="col-md-5">
+                <div id="cityName" class="eco-city-name"></div>
+                <div id="aqiLabel" class="eco-aqi-label"></div>
+                <div id="aqiDescription" class="eco-aqi-desc mt-2"></div>
+              </div>
+              <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                <div id="aqiTimestamp" class="eco-timestamp"></div>
+                <div id="aqiCountry" class="eco-country mt-1"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pollutants Grid -->
+      <div class="row justify-content-center mb-4">
+        <div class="col-lg-10">
+          <h3 class="eco-section-title mb-3">
+            <i class="bi bi-activity me-2"></i>Inquinanti rilevati
+          </h3>
+          <div id="pollutantsGrid" class="row g-3"></div>
+        </div>
+      </div>
+
+      <!-- Educational / Civic Tips -->
+      <div class="row justify-content-center mb-4">
+        <div class="col-lg-10">
+          <h3 class="eco-section-title mb-3">
+            <i class="bi bi-book me-2"></i>Cosa significa per te — Agenda 2030
+          </h3>
+          <div id="civicTips" class="row g-3"></div>
+        </div>
+      </div>
+
+      <!-- Goals Info -->
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <h3 class="eco-section-title mb-3">
+            <i class="bi bi-globe-europe-africa me-2"></i>Gli Obiettivi dell'Agenda 2030
+          </h3>
+          <div id="goalsGrid" class="row g-3"></div>
+        </div>
+      </div>
+
+    </div><!-- /stateResults -->
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════ -->
+  <footer class="eco-footer mt-5">
+    <div class="container py-4">
+      <div class="row">
+        <div class="col-md-6 mb-3 mb-md-0">
+          <strong class="eco-footer-title">Eco-Tracker 2030</strong>
+          <p class="eco-footer-text mt-1">
+            Strumento educativo di cittadinanza attiva.<br>
+            Dati forniti da <a href="https://openweathermap.org" target="_blank" rel="noopener" class="eco-link">OpenWeatherMap</a>.
+          </p>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <strong class="eco-footer-title">Privacy & Dati</strong>
+          <p class="eco-footer-text mt-1">
+            Nessun dato personale viene raccolto o memorizzato.<br>
+            Le ricerche per città sono anonime e non tracciate.<br>
+            I dati ambientali sono pubblici e forniti da terze parti.
+          </p>
+        </div>
+      </div>
+      <hr class="eco-footer-divider" />
+      <p class="text-center eco-footer-copy">
+        Progetto scolastico — Agenda 2030 ONU · Goal 3, 11, 13
+      </p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="scripts/main.js"></script>
+</body>
+</html>

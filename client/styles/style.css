@@ -1,0 +1,389 @@
+/* ═══════════════════════════════════════════════════════════
+   ECO-TRACKER 2030 — Stylesheet
+   Estetica: "Terminale Verde" — dati scientifici con carattere
+   Font: Space Mono (titoli/dati) + DM Sans (testo leggibile)
+   Palette: Verde profondo, nero carbone, accenti ciano/ambra
+═══════════════════════════════════════════════════════════ */
+
+:root {
+  --eco-bg:         #0a0f0d;
+  --eco-surface:    #111a14;
+  --eco-surface-2:  #1a2a1e;
+  --eco-border:     #2a3d2e;
+  --eco-green:      #3ddc84;
+  --eco-green-dim:  #2a9a5e;
+  --eco-cyan:       #4dd9d9;
+  --eco-amber:      #f5a623;
+  --eco-red:        #ff5252;
+  --eco-orange:     #ff8c42;
+  --eco-text:       #e8f5e9;
+  --eco-muted:      #7a9880;
+  --eco-mono:       'Space Mono', monospace;
+  --eco-sans:       'DM Sans', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  background-color: var(--eco-bg);
+  color: var(--eco-text);
+  font-family: var(--eco-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ── SCROLLBAR ──────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--eco-bg); }
+::-webkit-scrollbar-thumb { background: var(--eco-green-dim); border-radius: 3px; }
+
+/* ── HEADER ─────────────────────────────────── */
+.eco-header {
+  background: var(--eco-surface);
+  border-bottom: 1px solid var(--eco-border);
+  position: relative;
+  overflow: hidden;
+}
+.eco-header::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(ellipse at 10% 50%, rgba(61,220,132,.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+.eco-header-line {
+  height: 2px;
+  background: linear-gradient(90deg, var(--eco-green), var(--eco-cyan), transparent);
+}
+
+.eco-logo-badge {
+  width: 44px; height: 44px;
+  background: var(--eco-green);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  color: var(--eco-bg);
+  flex-shrink: 0;
+}
+
+.eco-title {
+  font-family: var(--eco-mono);
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 700;
+  color: var(--eco-text);
+  letter-spacing: -0.5px;
+}
+.eco-year {
+  color: var(--eco-green);
+}
+
+.eco-payoff {
+  color: var(--eco-muted);
+  font-size: 0.9rem;
+  max-width: 520px;
+}
+.eco-payoff strong { color: var(--eco-green); font-weight: 500; }
+
+.eco-badge-live {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--eco-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--eco-green);
+  background: rgba(61,220,132,.1);
+  border: 1px solid rgba(61,220,132,.3);
+  border-radius: 20px;
+  padding: 6px 14px;
+}
+.eco-pulse {
+  width: 8px; height: 8px;
+  background: var(--eco-green);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(61,220,132,.4); }
+  50% { opacity: .7; transform: scale(1.1); box-shadow: 0 0 0 6px rgba(61,220,132,0); }
+}
+
+/* ── SEARCH ─────────────────────────────────── */
+.eco-search-section {
+  background: var(--eco-surface);
+  border-bottom: 1px solid var(--eco-border);
+}
+.eco-search-label {
+  font-size: 0.8rem;
+  font-family: var(--eco-mono);
+  color: var(--eco-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.eco-search-box {
+  display: flex;
+  background: var(--eco-surface-2);
+  border: 1px solid var(--eco-border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color .2s, box-shadow .2s;
+}
+.eco-search-box:focus-within {
+  border-color: var(--eco-green);
+  box-shadow: 0 0 0 3px rgba(61,220,132,.12);
+}
+.eco-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 14px 18px;
+  font-size: 1rem;
+  font-family: var(--eco-sans);
+  color: var(--eco-text);
+  min-width: 0;
+}
+.eco-input::placeholder { color: var(--eco-muted); }
+.eco-search-btn {
+  background: var(--eco-green);
+  border: none;
+  color: var(--eco-bg);
+  font-family: var(--eco-mono);
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 14px 22px;
+  cursor: pointer;
+  transition: background .2s, transform .1s;
+  white-space: nowrap;
+}
+.eco-search-btn:hover { background: var(--eco-cyan); }
+.eco-search-btn:active { transform: scale(.97); }
+.eco-search-btn:disabled { background: var(--eco-muted); cursor: not-allowed; }
+.eco-search-error {
+  font-size: 0.85rem;
+  color: var(--eco-red);
+  font-family: var(--eco-mono);
+  padding: 0 4px;
+}
+
+/* ── STATES ─────────────────────────────────── */
+.eco-state-empty { animation: fadeIn .5s ease; }
+.eco-earth-icon { font-size: 4rem; filter: drop-shadow(0 0 20px rgba(61,220,132,.3)); }
+.eco-muted { color: var(--eco-muted); }
+
+.eco-goals-preview { opacity: .7; }
+.eco-goal-chip {
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-family: var(--eco-mono);
+  font-weight: 700;
+  text-align: center;
+  border: 1px solid;
+}
+.eco-goal-chip.goal-3  { color: #4CAF50; border-color: rgba(76,175,80,.3);  background: rgba(76,175,80,.07); }
+.eco-goal-chip.goal-11 { color: #FF9800; border-color: rgba(255,152,0,.3);  background: rgba(255,152,0,.07); }
+.eco-goal-chip.goal-13 { color: #2196F3; border-color: rgba(33,150,243,.3); background: rgba(33,150,243,.07); }
+
+.eco-spinner {
+  width: 48px; height: 48px;
+  border: 3px solid var(--eco-border);
+  border-top-color: var(--eco-green);
+  border-radius: 50%;
+  margin: 0 auto;
+  animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── AQI CARD ───────────────────────────────── */
+.eco-aqi-card {
+  border-radius: 14px;
+  border: 1px solid var(--eco-border);
+  background: var(--eco-surface);
+  padding: 28px;
+  animation: slideUp .4s ease;
+  position: relative;
+  overflow: hidden;
+}
+.eco-aqi-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.eco-aqi-card.aqi-success::before { background: var(--eco-green); }
+.eco-aqi-card.aqi-info::before    { background: var(--eco-cyan); }
+.eco-aqi-card.aqi-warning::before { background: #f5e642; }
+.eco-aqi-card.aqi-orange::before  { background: var(--eco-orange); }
+.eco-aqi-card.aqi-danger::before  { background: var(--eco-red); }
+
+.eco-aqi-emoji { font-size: 3.5rem; line-height: 1; margin-bottom: 8px; }
+.eco-aqi-index {
+  font-family: var(--eco-mono);
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  color: var(--eco-muted);
+  text-transform: uppercase;
+}
+.eco-city-name {
+  font-family: var(--eco-mono);
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 700;
+  color: var(--eco-text);
+  line-height: 1.2;
+}
+.eco-aqi-label {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 4px;
+}
+.eco-aqi-label.aqi-success { color: var(--eco-green); }
+.eco-aqi-label.aqi-info    { color: var(--eco-cyan); }
+.eco-aqi-label.aqi-warning { color: #f5e642; }
+.eco-aqi-label.aqi-orange  { color: var(--eco-orange); }
+.eco-aqi-label.aqi-danger  { color: var(--eco-red); }
+
+.eco-aqi-desc { color: var(--eco-muted); font-size: 0.85rem; }
+.eco-timestamp { font-family: var(--eco-mono); font-size: 0.7rem; color: var(--eco-muted); }
+.eco-country   { font-size: 0.85rem; color: var(--eco-muted); }
+
+/* ── SECTION TITLES ─────────────────────────── */
+.eco-section-title {
+  font-family: var(--eco-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--eco-green);
+}
+
+/* ── POLLUTANT CARDS ────────────────────────── */
+.eco-pollutant-card {
+  background: var(--eco-surface);
+  border: 1px solid var(--eco-border);
+  border-radius: 10px;
+  padding: 18px;
+  transition: border-color .2s;
+}
+.eco-pollutant-card:hover { border-color: var(--eco-green-dim); }
+.eco-pollutant-card.status-critico   { border-left: 3px solid var(--eco-red); }
+.eco-pollutant-card.status-attenzione { border-left: 3px solid var(--eco-amber); }
+.eco-pollutant-card.status-normale   { border-left: 3px solid var(--eco-green); }
+
+.eco-pollutant-name {
+  font-size: 0.75rem;
+  color: var(--eco-muted);
+  font-family: var(--eco-mono);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  margin-bottom: 4px;
+}
+.eco-pollutant-value {
+  font-family: var(--eco-mono);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--eco-text);
+  line-height: 1;
+}
+.eco-pollutant-unit {
+  font-size: 0.7rem;
+  color: var(--eco-muted);
+  margin-left: 2px;
+}
+.eco-pollutant-status {
+  font-size: 0.72rem;
+  font-family: var(--eco-mono);
+  font-weight: 700;
+  margin-top: 6px;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+.status-critico   .eco-pollutant-status { color: var(--eco-red); }
+.status-attenzione .eco-pollutant-status { color: var(--eco-amber); }
+.status-normale   .eco-pollutant-status { color: var(--eco-green); }
+
+/* ── CIVIC TIPS ─────────────────────────────── */
+.eco-civic-card {
+  background: var(--eco-surface);
+  border: 1px solid var(--eco-border);
+  border-radius: 10px;
+  padding: 20px;
+  animation: slideUp .5s ease;
+}
+.eco-civic-goal {
+  font-family: var(--eco-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.eco-civic-goal.goal-3  { color: #4CAF50; background: rgba(76,175,80,.12); }
+.eco-civic-goal.goal-11 { color: #FF9800; background: rgba(255,152,0,.12); }
+.eco-civic-goal.goal-13 { color: #2196F3; background: rgba(33,150,243,.12); }
+.eco-civic-text { font-size: 0.875rem; color: var(--eco-text); line-height: 1.65; }
+
+/* ── GOALS CARDS ────────────────────────────── */
+.eco-goal-card {
+  background: var(--eco-surface);
+  border: 1px solid var(--eco-border);
+  border-radius: 10px;
+  padding: 22px;
+  height: 100%;
+}
+.eco-goal-number {
+  font-family: var(--eco-mono);
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1;
+  opacity: .15;
+}
+.eco-goal-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 8px;
+}
+.eco-goal-desc   { font-size: 0.82rem; color: var(--eco-muted); }
+.eco-goal-target {
+  font-size: 0.78rem;
+  color: var(--eco-muted);
+  border-left: 2px solid;
+  padding-left: 10px;
+  margin-top: 12px;
+  font-style: italic;
+}
+
+/* ── FOOTER ─────────────────────────────────── */
+.eco-footer {
+  background: var(--eco-surface);
+  border-top: 1px solid var(--eco-border);
+}
+.eco-footer-title {
+  font-family: var(--eco-mono);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--eco-green);
+}
+.eco-footer-text { font-size: 0.82rem; color: var(--eco-muted); margin: 0; }
+.eco-footer-divider { border-color: var(--eco-border); }
+.eco-footer-copy { font-size: 0.78rem; color: var(--eco-muted); font-family: var(--eco-mono); }
+.eco-link { color: var(--eco-green); text-decoration: none; }
+.eco-link:hover { color: var(--eco-cyan); }
+
+/* ── ANIMATIONS ─────────────────────────────── */
+@keyframes fadeIn  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+#stateResults { animation: fadeIn .4s ease; }
+
+/* ── RESPONSIVE ─────────────────────────────── */
+@media (max-width: 576px) {
+  .eco-search-btn { padding: 14px 16px; font-size: 0.8rem; }
+  .eco-aqi-card { padding: 20px; }
+}
