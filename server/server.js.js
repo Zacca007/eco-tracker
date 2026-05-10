@@ -13,7 +13,9 @@ app.use(cors());
 app.use(express.json());
 
 // Serve static frontend files
-app.use(express.static(path.join(__dirname, '../client')));
+app.use(express.static(path.join(__dirname, '../client/pages')));
+app.use('/styles', express.static(path.join(__dirname, '../client/styles')));
+app.use('/scripts', express.static(path.join(__dirname, '../client/scripts')));
 
 // API Routes
 app.use('/api/report', reportRouter);
@@ -21,7 +23,7 @@ app.use('/api/obiettivi', goalsRouter);
 
 // Fallback: serve index.html for SPA
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/index.html'));
+  res.sendFile(path.join(__dirname, '../client/pages/index.html'));
 });
 
 app.listen(PORT, () => {
